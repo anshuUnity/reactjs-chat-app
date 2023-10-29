@@ -17,11 +17,12 @@ function App() {
       //   </div>
       // </>
     <BrowserRouter>
-      <Navigate/>
+      {/* <Navigate/> */}
       <Routes>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/register' element={<Register/>}></Route>
-        <Route path='/chat' element={<><Sidebar/><ChatArea/></>}></Route>
+        <Route path='/chat' element={<><ChatArea/></>}></Route>
+        <Route path="/user/:id" element={<ChatArea/>} />
       </Routes>
     </BrowserRouter>
   );
