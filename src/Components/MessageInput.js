@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function MessageInput() {
+export default function MessageInput(props) {
     const [inputValue, setInputValue] = useState('');
 
     const handleInputChange = (event) => {
@@ -8,7 +8,15 @@ export default function MessageInput() {
     }
 
     const handleSendMessage = () => {
-        console.log("MESSAGE SEND")
+        
+        if(inputValue.trim() !== ""){
+            const messageObj = {
+                "message":inputValue
+            }
+            props.socket.send(JSON.stringify(messageObj))
+            console.log("MESSAGE SEND")
+            setInputValue("")
+        }
     }
   return (
     <div className='message-input'>

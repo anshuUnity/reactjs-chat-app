@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 
 function ChatArea() {
   const BASE_URL_SOCKET = "ws://127.0.0.1:8000/";
+  const [socket, setSocket] = useState(null);
   const {id} = useParams();
   const getAuthTokenFromCookie = () =>{
     const cookies = document.cookie.split(';');
@@ -21,25 +22,41 @@ function ChatArea() {
 
   useEffect(() => {
     const authToken = getAuthTokenFromCookie()
+    console.log(id);
     if(authToken && id !== undefined){
-      const socket = new WebSocket(`${BASE_URL_SOCKET}ws/chat/${id}/?token=${authToken}`)
-      socket.onopen = function(e){
+      const newsocket = new WebSocket(`${BASE_URL_SOCKET}ws/chat/${id}/?token=${authToken}`)
+      newsocket.onopen = function(e){
         console.log("CONNECTION ESTABLISHED");
       }
 
-      socket.close = function(e){
+      newsocket.close = function(e){
         console.log("CONNECTION CLOSED");
       }
 
-      socket.onerror = function(e){
+      newsocket.onerror = function(e){
         console.log("ERROR ", e);
       }
 
-      socket.onmessage = function(e){
-        
+      newsocket.onmessage = function(e){
+        const data = JSON.parse(e.data);
+        console.log(data, "ONMESSAGE");
       }
+
+      // function sendMessage(messageObject){
+      //   socket.send(JSON.stringify(messageObject))
+      // }
+
+      // const sendMessage = (messageObject) =>{
+      //   socket.send(JSON.stringify(messageObject))
+      // }
+      setSocket(newsocket)
+      // Clean up the WebSocket when the component unmounts
+      return () => {
+        newsocket.close();
+      };
     }
   }, [id])
+
   return (
     <>
     <div className='chat-container'>
@@ -50,7 +67,7 @@ function ChatArea() {
               <Message text="Hey, how's it going" sent/>
               <Message text="I am good" recieved/>
           </div>
-          <MessageInput/>
+          <MessageInput socket={socket}/>
       </div>
     </div>
     </>
