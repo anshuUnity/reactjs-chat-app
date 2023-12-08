@@ -10,7 +10,7 @@ export default function Register() {
         "password": ""
     });
     const handleFormSubmit = () =>{
-        fetch(`${BASE_URL}api/register/`, {
+        fetch(`${BASE_URL}register/`, {
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',

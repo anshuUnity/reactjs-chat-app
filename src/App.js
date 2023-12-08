@@ -17,12 +17,10 @@ function App() {
       //   </div>
       // </>
     <BrowserRouter>
-      {/* <Navigate/> */}
       <Routes>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/register' element={<Register/>}></Route>
-        <Route path='/chat' element={<><ChatArea/></>}></Route>
-        <Route path="/user/:id" element={<ChatArea/>} />
+        <Route path='/chat' element={<><div className='chat-container'><Sidebar/><ChatArea/></div></>}></Route>
       </Routes>
     </BrowserRouter>
   );

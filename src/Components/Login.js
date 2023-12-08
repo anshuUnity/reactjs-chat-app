@@ -8,7 +8,7 @@ function Login() {
         "password": ""
     });
     const handleFormSubmit = () =>{
-        fetch(`${BASE_URL}api/login/`, {
+        fetch(`${BASE_URL}login/`, {
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',
@@ -18,9 +18,8 @@ function Login() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            const token  = data.token;
-            localStorage.setItem("userid", data.user.id)
-            document.cookie = `token=${token}; path=/`;
+            const token = data.token;
+            document.cookie = `token=${token}; path=/`
         })
         .catch(error => {
             console.log(error);
